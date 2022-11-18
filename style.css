@@ -3,6 +3,7 @@
     max-width: 500px;
     height: 500px;
     border: 1px solid black;
+    color: rgb(255, 0, 0)
 }
 
 .column {
@@ -21,7 +22,6 @@
   width: 200px; /* Width of the outside container */
 }
 
-/* The slider itself */
 .slider {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
@@ -57,4 +57,15 @@
   border-radius: 50%;
   background: #04AA6D; /* Green background */
   cursor: pointer; /* Cursor on hover */
+}
+
+
+.button {
+  width: 200px;
+  height: 50px;
+}
+
+.buttonOn {
+  background-color: darkblue;
+  color: white;
 }

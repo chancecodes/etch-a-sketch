@@ -1,17 +1,18 @@
 //slider range
 var slider = document.getElementById("myRange");
 var length = document.getElementById("length");
-var byLength = document.getElementById("length2")
-length.innerHTML = slider.value; // Display the default slider value
+var byLength = document.getElementById("length2");
+// Display the default slider value
+length.innerHTML = slider.value; 
 byLength.innerHTML = slider.value;
 
-//create initial grid
+//create initial grid with coloring ability
 var gridLength = length.innerHTML;
 const sketchArea = document.querySelector('.sketchArea');
 var square;
 addColor();
 
-// Update the current slider value (each time you drag the slider handle) and set gridLength
+// Update current slider value when you drag the slider handle and set to gridLength
 slider.oninput = function() {
   length.innerHTML = this.value;
   byLength.innerHTML = length.innerHTML;
@@ -27,17 +28,15 @@ var penColor = pickColor.value;
 
 pickColor.onchange = function() {
     penColor = this.value;
-}
+};
 
 //select background color
-var bgPickColor = document.getElementById("bgColor")
-var bgColor = bgPickColor.value;
+var bgColor = document.getElementById("bgColor");
 
-bgPickColor.onchange = function() {
+bgColor.onchange = function() {
     bgColor = this.value;
-    console.log(bgColor)
     sketchArea.style.backgroundColor = bgColor;
-}
+};
 
 
 function createGrid (num) {
@@ -61,32 +60,53 @@ function createGrid (num) {
 }
 
 
-//add coloring events for each square
+//add coloring events to each square
 function addColor() {
-    createGrid(gridLength)
+    createGrid(gridLength);
     square.forEach((box) => {
-        box.addEventListener ('mousedown', coloring)
-        box.addEventListener ('mouseup', stopColoring)
-    })
-        window.addEventListener ('mouseup', stopColoring)
-    }
+        box.addEventListener ('mousedown', coloring);
+        box.addEventListener ('mouseup', stopColoring);
+    });
+        window.addEventListener ('mouseup', stopColoring);
+    };
 
 function coloring() {
+    if (rainbowMode === "on") {
+        randomColor()
+    }
     this.style.backgroundColor = penColor;
     square.forEach((box) => {
-        box.addEventListener ('mouseenter', dragColor)
-    })
-}
+        box.addEventListener ('mouseenter', dragColor);
+    });
+};
 
 function stopColoring() {
     square.forEach((box) => {
-        box.removeEventListener ('mouseenter', dragColor)
-    })
-}
+        box.removeEventListener ('mouseenter', dragColor);
+    });
+};
 
 function dragColor () {
+    if (rainbowMode === "on") {
+        randomColor()
+    }
     this.style.backgroundColor = penColor;
+};
+
+
+//RAINBOW MODE
+const rainbow = document.getElementById("rainbow")
+rainbow.addEventListener('click', activateRainbowMode)
+var rainbowMode;
+
+function randomColor () {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    penColor = `rgb(${r},${g},${b})`
 }
 
-
-
+function activateRainbowMode () {
+    rainbowMode = "on";
+    rainbow.classList.add("buttonOn");
+}
