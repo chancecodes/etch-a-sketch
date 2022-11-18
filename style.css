@@ -1,4 +1,4 @@
-.container {
+.sketchArea {
     display:flex;
     max-width: 500px;
     height: 500px;
@@ -17,11 +17,6 @@
     border-width: thin;
 }
 
-.on {
-    background-color: red;
-}
-
-
 .slidecontainer {
   width: 200px; /* Width of the outside container */
 }
@@ -31,7 +26,7 @@
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   border-radius: 20px;
-  width: 100%; /* Full-width */
+  width: 200px; /* Full-width */
   height: 20px; /* Specified height */
   background: #d3d3d3; /* Grey background */
   outline: none; /* Remove outline */

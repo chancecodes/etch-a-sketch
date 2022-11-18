@@ -7,11 +7,11 @@ byLength.innerHTML = slider.value;
 
 //create initial grid
 var gridLength = length.innerHTML;
-const container = document.querySelector('.container')
+const sketchArea = document.querySelector('.sketchArea');
 var square;
-addColor()
+addColor();
 
-// Update the current slider value (each time you drag the slider handle)
+// Update the current slider value (each time you drag the slider handle) and set gridLength
 slider.oninput = function() {
   length.innerHTML = this.value;
   byLength.innerHTML = length.innerHTML;
@@ -19,9 +19,25 @@ slider.oninput = function() {
 }
 
 //grid changes size when slider updated
-slider.addEventListener ('mouseup', function() {
-    addColor()
-});
+slider.addEventListener ('mouseup', addColor);
+
+//select pen color
+var pickColor = document.getElementById("penColor");
+var penColor = pickColor.value;
+
+pickColor.onchange = function() {
+    penColor = this.value;
+}
+
+//select background color
+var bgPickColor = document.getElementById("bgColor")
+var bgColor = bgPickColor.value;
+
+bgPickColor.onchange = function() {
+    bgColor = this.value;
+    console.log(bgColor)
+    sketchArea.style.backgroundColor = bgColor;
+}
 
 
 function createGrid (num) {
@@ -29,50 +45,47 @@ function createGrid (num) {
     clear.forEach(column => {
     column.remove();
     });
+
     for (let x=0; x < num; x++) {
         const column = document.createElement('div');
         column.classList.add('column');
-        container.appendChild(column);
+        sketchArea.appendChild(column);
         for (let y=0; y < num; y++) {
         const square = document.createElement('div');
         square.classList.add ('gridSquare');
         column.appendChild(square);
         }
     }
+
     square = document.querySelectorAll('.gridSquare')
 }
 
 
-//add mousedown/mouseenter/mouseup events for each square
-
+//add coloring events for each square
 function addColor() {
     createGrid(gridLength)
     square.forEach((box) => {
-        box.addEventListener ('mousedown', mouseDown)
-        box.addEventListener ('mouseup', mouseUp)
+        box.addEventListener ('mousedown', coloring)
+        box.addEventListener ('mouseup', stopColoring)
     })
-        window.addEventListener ('mouseup', mouseUp)
+        window.addEventListener ('mouseup', stopColoring)
     }
 
-
-function mouseDown() {
-    console.log('mousedown')
-    this.classList.add('on')
+function coloring() {
+    this.style.backgroundColor = penColor;
     square.forEach((box) => {
-        box.addEventListener ('mouseenter', drag)
+        box.addEventListener ('mouseenter', dragColor)
     })
 }
 
-function mouseUp() {
-    console.log("mouse up")
+function stopColoring() {
     square.forEach((box) => {
-        box.removeEventListener ('mouseenter', drag)
+        box.removeEventListener ('mouseenter', dragColor)
     })
 }
 
-function drag () {
-    console.log('mouse moving')
-    this.classList.add('on')
+function dragColor () {
+    this.style.backgroundColor = penColor;
 }
 
 
