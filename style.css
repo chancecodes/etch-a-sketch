@@ -3,7 +3,6 @@
     max-width: 500px;
     height: 500px;
     border: 1px solid black;
-    color: rgb(255, 0, 0)
 }
 
 .column {
@@ -67,5 +66,7 @@
 
 .buttonOn {
   background-color: darkblue;
-  color: white;
+  color: white; 
+  filter: calc(brightness(1) calc( - brightness(.5));
+
 }
