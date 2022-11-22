@@ -52,6 +52,10 @@ body {
     background-color: lavenderblush;
 }
 
+.button:hover {
+  transform: scale(1.05)
+}
+
 .buttonOn {
   background-color: rgb(96, 71, 98);
   color: white; 
