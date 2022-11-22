@@ -8,26 +8,31 @@
     </head>
 
     <body>
-        <div class="slideContainer">
-            <input type="range" min="1" max="60" value="20" class="slider" id="myRange">
-            <p>Grid Size: <span id="length"></span> x <span id="length2"></span></p>
-        </div>
-        
-        <div class="colorSelection">
-            <p>Pen Color</p>
-            <input type="color" value="#ff0000" class="colorRange" id="penColor">
-        </div>
+        <h1 class="header">Etch-a-Sketch</h1>
+    <div class="main">
+        <div class="menu">
+            <div class="colorSelection">
+                <input type="color" value="#5b3256" class="colorRange" id="penColor">
+            </div>
 
-        <div class="modeArea">
             <button class="button" id="color">Color</button>
             <button class="button" id="rainbow">Rainbow</button>
             <button class="button" id="shade">Shade</button>
             <button class="button" id="eraser">Eraser</button>
             <button class="button" id="clear">Clear</button>
+            <button class="button" id="gridLines">Grid Lines</button>
+
+            <div class="slideContainer">
+                <p class="dimensions"><span id="length"></span> x <span id="length2"></span></p>
+                <input type="range" min="1" max="60" value="20" class="slider" id="myRange">
+            </div>
         </div>
 
-
-        <div class="sketchArea"></div>
+        <div class="drawing">
+            <div class="sketchArea"></div>
+        </div>
+    </div>
+    
     </body>
 
 </html>

@@ -6,20 +6,6 @@ var byLength = document.getElementById('length2');
 length.innerHTML = slider.value; 
 byLength.innerHTML = slider.value;
 
-//create initial grid with coloring ability
-var gridLength = length.innerHTML;
-const sketchArea = document.querySelector('.sketchArea');
-var square;
-//initialize buttons
-const color = document.getElementById('color');
-color.classList.add("buttonOn");
-var coloringMode = true;
-const eraser = document.getElementById ('eraser');
-const rainbow = document.getElementById('rainbow');
-const shade = document.getElementById('shade');
-
-
-
 // Update current slider value when you drag the slider handle and set to gridLength
 slider.oninput = function() {
   length.innerHTML = this.value;
@@ -40,22 +26,24 @@ pickColor.onchange = function() {
     penColor = userPick;
 };
 
-// //select background color
-// var pickBgColor = document.getElementById('bgColor');
-// var bgColor = pickBgColor.value;
+//initialize buttons
+const color = document.getElementById('color');
+color.classList.add("buttonOn");
+var coloringMode = true;
+const eraser = document.getElementById ('eraser');
+const rainbow = document.getElementById('rainbow');
+const shade = document.getElementById('shade');
 
-// pickBgColor.onchange = function() {
-//     bgColor = this.value;
-//     sketchArea.style.backgroundColor = bgColor;
-// };
+//create initial grid with coloring ability
+var gridLength = length.innerHTML;
+const sketchArea = document.querySelector('.sketchArea');
+var square;
 
-
-//create initial grid
 addColor();
 
 
 function createGrid (num) {
-    const clear = document.querySelectorAll('.column')
+    const clear = document.querySelectorAll('.column');
     clear.forEach(column => {
     column.remove();
     });
@@ -66,21 +54,21 @@ function createGrid (num) {
         sketchArea.appendChild(column);
         for (let y=0; y < num; y++) {
         const square = document.createElement('div');
-        square.classList.add ('gridSquare');
+        square.classList.add ('gridSquare', 'grid');
         square.style.backgroundColor = "rgb(255,255,255)";
         square.style.filter = "brightness(1)";
         column.appendChild(square);
         }
     }
 
-    square = document.querySelectorAll('.gridSquare')
+    square = document.querySelectorAll('.gridSquare');
 }
-
 
 //add coloring events to each square
 function addColor() {
     
     createGrid(gridLength);
+    toggleGridLines();
     square.forEach((box) => {
         box.addEventListener ('mousedown', coloring);
         box.addEventListener ('mouseup', stopColoring);
@@ -90,29 +78,27 @@ function addColor() {
 
 function coloring(e) {
     if (rainbowMode) {
-        randomColor()
+        randomColor();
+    }
+
+    if (eraserMode) {
+        penColor = "rgb(255,255,255)";
+        e.target.style.filter = "brightness(1)";
     }
 
     if (coloringMode) {
         e.target.style.backgroundColor = penColor;
     }
 
-    if (eraserMode) {
-        penColor = "rgb(255,255,255)"
-        e.target.style.filter = "brightness(1)"
-    }
-
     if (shadingMode) {
-        var getBrightness = e.target.style.filter
-        var brightnessValue = getBrightness.replace(/[brightness()]/g, "")
-        e.target.style.filter = `brightness(${brightnessValue - .1})`
+        var getBrightness = e.target.style.filter;
+        var brightnessValue = getBrightness.replace(/[brightness()]/g, "");
+        e.target.style.filter = `brightness(${brightnessValue - .1})`;
         console.log(e.target.style.filter);
     }
 
-    // e.target.style.filter = "brightness(1)"
-
-    square.forEach((box) => {
-        box.addEventListener ('mouseenter', coloring);
+    square.forEach((drag) => {
+        drag.addEventListener ('mouseenter', coloring);;
     });
 };
 
@@ -124,12 +110,11 @@ function stopColoring() {
 
 //remove highlight from button if new button clicked
 function removeHighlight () {
-    const btn = document.querySelectorAll('.button')
+    const btn = document.querySelectorAll('.button');
     btn.forEach(button => {
-        button.classList.remove('buttonOn')
+        button.classList.remove('buttonOn');
     })
 }
-
 
 //RAINBOW MODE
 rainbow.addEventListener('click', activateRainbowMode)
@@ -139,7 +124,7 @@ function randomColor () {
     const r = Math.floor(Math.random() * 256);
     const g = Math.floor(Math.random() * 256);
     const b = Math.floor(Math.random() * 256);
-    penColor = `rgb(${r},${g},${b})`
+    penColor = `rgb(${r},${g},${b})`;
 }
 
 function activateRainbowMode () {
@@ -152,7 +137,8 @@ function activateRainbowMode () {
     shadingMode = false;
 }
 
-//Color Mode
+
+//COLOR MODE
 color.addEventListener ('click', activateColorMode);
 
 function activateColorMode() {
@@ -174,16 +160,16 @@ var shadingMode;
 function activateShading() {
     removeHighlight();
     shadingMode = true;
-    shade.classList.add("buttonOn")
+    shade.classList.add("buttonOn");
 
-    rainbowMode = false
-    eraserMode = false
-    coloringMode = false
+    rainbowMode = false;
+    eraserMode = false;
+    coloringMode = false;
 }
 
 
 //Eraser
-eraser.addEventListener ('click', activateEraser)
+eraser.addEventListener ('click', activateEraser);
 var eraserMode;
 
 function activateEraser() {
@@ -196,14 +182,28 @@ function activateEraser() {
     shadingMode = false;
 }
 
+
 //clear board
-const clear = document.getElementById('clear')
+const clear = document.getElementById('clear');
 clear.addEventListener ('click', clearBoard);
 
 function clearBoard() {
-    square = document.querySelectorAll('.gridSquare')
+    square = document.querySelectorAll('.gridSquare');
     square.forEach (box => {
-        box.style.backgroundColor = ""
-        box.style.filter = "brightness(1)"
+        box.style.backgroundColor = "rgb(255,255,255)";
+        box.style.filter = "brightness(1)";
     })
+}
+
+
+//toggle gridLines 
+const gridLines = document.getElementById('gridLines');
+
+gridLines.addEventListener('click', toggleGridLines);
+
+function toggleGridLines() {
+    square = document.querySelectorAll('.gridSquare')
+    square.forEach (gridLine => {
+        gridLine.classList.toggle('grid')
+    }) 
 }
